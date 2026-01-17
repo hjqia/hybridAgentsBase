@@ -1,0 +1,19 @@
+pocketflow
+smolagents
+instructor
+litellm
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+requests
+ddgs
+smolagents[mcp]
+# For telemetry
+opentelemetry-sdk
+opentelemetry-exporter-otlp
+openinference-instrumentation-smolagents
+langfuse>=2.0.0,<3.0.0
+
+# For mocking servers
+# fastapi
+# uvicorn
+# mcp
