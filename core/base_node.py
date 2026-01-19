@@ -130,7 +130,7 @@ class BaseNode(Node):
 
 
 """
-
+# This is up to the user to always import it from here, or just add it to the list of nodes in nodes.py
 class EndNode(Node):
     def exec(self, inputs):
         return "Flow_ended"
