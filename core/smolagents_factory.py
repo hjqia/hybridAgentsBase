@@ -53,7 +53,7 @@ def get_agent(model_object, tools=None):
 def get_mcp_tools(server_urls: list[str]):
     mcp_servers = [{"url": url} for url in server_urls]
     try:
-        client = MCPClient(mcp_servers)
+        client = MCPClient(mcp_servers, structured_output=True)
         tools = client.get_tools()
         print(f"[Factory] Connected to MCP servers: {server_urls}. Found {len(tools)} tools.")
         return client, tools
