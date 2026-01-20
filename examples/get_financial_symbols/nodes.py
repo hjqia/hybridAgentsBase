@@ -1,11 +1,11 @@
-from core.base_node import BaseNode
+from core import PowerfulNode
 from core.smolagents_factory import get_agent, get_mcp_tools
 from models import PriceDataList, ConvertedPriceDataList, FinalResult, PriceData, ConvertedPriceData, SymbolAnalysis
 from prompts import price_fetch_task, conversion_task, recommendation_task
 from tools import PriceFetcherTool, CurrencyConverterTool
 from smolagents import Tool
 
-class PriceNode(BaseNode):
+class PriceNode(PowerfulNode):
     def prep(self, shared):
         return {
             "symbols": shared.get("input", {}).get("symbols", []),
@@ -38,7 +38,7 @@ class PriceNode(BaseNode):
         )
         return status
 
-class ConverterNode(BaseNode):
+class ConverterNode(PowerfulNode):
     def prep(self, shared):
         prices = shared.get("price", {}).get("prices") # Namespace is 'price' (from PriceNode)
         return {
@@ -74,7 +74,7 @@ class ConverterNode(BaseNode):
         )
         return status
 
-class RecommendationNode(BaseNode):
+class RecommendationNode(PowerfulNode):
     def prep(self, shared):
         converted = shared.get("converter", {}).get("converted_prices")
         return {
@@ -135,6 +135,6 @@ class RecommendationNode(BaseNode):
         finally:
             if mcp_client: mcp_client.disconnect()
 
-class EndNode(BaseNode):
+class EndNode(PowerfulNode):
     def exec(self, inputs):
         return "Flow_ended"

@@ -1,5 +1,5 @@
 from pocketflow import Node
-from core.base_node import BaseNode
+from core import PowerfulNode
 from core.smolagents_factory import get_agent, get_mcp_tools
 from smolagents import DuckDuckGoSearchTool
 from tools import RandomNumberTool
@@ -7,7 +7,7 @@ from models import ExampleResult
 from prompts import example_task, SYSTEM_PROMPT_EXAMPLE
 
 
-class ResearchNode(BaseNode):
+class ResearchNode(PowerfulNode):
     def prep(self, shared):
         # Get data from input
         return {

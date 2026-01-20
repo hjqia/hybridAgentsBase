@@ -1,5 +1,5 @@
 from pocketflow import Node
-from core.base_node import BaseNode
+from core import PowerfulNode
 from core.smolagents_factory import get_agent
 from smolagents import Tool
 from pydantic import BaseModel, Field
@@ -11,7 +11,7 @@ from core.human_node import AskHumanNode
 class GreetingResponse(BaseModel):
     greeting: str = Field(description="The generated greeting message")
 
-class GreeterNode(BaseNode):
+class GreeterNode(PowerfulNode):
     def prep(self, shared):
         # Get the human input from the AskHumanNode's namespace
         # Assuming the AskHumanNode was named 'ask_human' (default)

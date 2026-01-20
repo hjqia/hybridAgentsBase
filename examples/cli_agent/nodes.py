@@ -1,7 +1,7 @@
 import subprocess
 import uuid
 from pocketflow import Node
-from core.base_node import BaseNode
+from core import PowerfulNode
 from core.smolagents_factory import get_agent
 from core.storage.fs import FileSystemAgentMemory, AgentMemoryItem
 from smolagents import Tool
@@ -23,7 +23,7 @@ class BashCommandGeneratorTool(Tool):
         # Actually, for this node, we might not even need a tool if we just ask the LLM.
         return ""
 
-class InputNode(BaseNode):
+class InputNode(PowerfulNode):
     def prep(self, shared):
         return {"shared": shared}
 
@@ -40,7 +40,7 @@ class InputNode(BaseNode):
             return "exit"
         return "continue"
 
-class PlanNode(BaseNode):
+class PlanNode(PowerfulNode):
     def prep(self, shared):
         user_input = shared.get("input", {}).get("user_input")
         user_id = shared.get("input", {}).get("user_id")
@@ -113,7 +113,7 @@ class PlanNode(BaseNode):
             
         return "error"
 
-class ApprovalNode(BaseNode):
+class ApprovalNode(PowerfulNode):
     def prep(self, shared):
         cmd = shared.get("plan", {}).get("command")
         return {"command": cmd, "shared": shared}
@@ -132,7 +132,7 @@ class ApprovalNode(BaseNode):
             return "approve"
         return "reject"
 
-class ExecuteNode(BaseNode):
+class ExecuteNode(PowerfulNode):
     def prep(self, shared):
         return {
             "command": shared.get("plan", {}).get("command"),
@@ -162,7 +162,7 @@ class ExecuteNode(BaseNode):
             print(f"[Exec] Failed: {e}")
             return "failure"
 
-class SaveMemoryNode(BaseNode):
+class SaveMemoryNode(PowerfulNode):
     def prep(self, shared):
         return {
             "source": shared.get("plan", {}).get("source"),
