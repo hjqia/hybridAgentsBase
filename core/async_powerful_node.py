@@ -140,3 +140,15 @@ class AsyncPowerfulNode(AsyncNode):
         except Exception as e:
             print(f"[{self.namespace}] Checkpoint failed: {e}")
         return exec_res
+
+
+class AsyncPowerfulBatchNode(AsyncPowerfulNode):
+    async def _exec(self, items):
+        return [await super(AsyncPowerfulBatchNode, self)._exec(i) for i in (items or [])]
+
+
+class AsyncPowerfulParallelBatchNode(AsyncPowerfulNode):
+    async def _exec(self, items):
+        return await asyncio.gather(
+            *(super(AsyncPowerfulParallelBatchNode, self)._exec(i) for i in (items or []))
+        )

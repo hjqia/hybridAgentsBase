@@ -129,6 +129,11 @@ class BaseNode(Node):
         return exec_res
 
 
+class PowerfulBatchNode(BaseNode):
+    def _exec(self, items):
+        return [super(PowerfulBatchNode, self)._exec(i) for i in (items or [])]
+
+
 """
 # This is up to the user to always import it from here, or just add it to the list of nodes in nodes.py
 class EndNode(Node):
