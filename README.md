@@ -52,7 +52,7 @@ def my_task(query):
 Add custom tools if needed (standard Python classes inheriting from `Tool`).
 
 ### Step 4: Create Nodes (`nodes.py`)
-Create a new class inheriting from `BaseNode`.
+Create a new class inheriting from `PowerfulNode`.
 1. Implement `prep(self, shared)`: Prepare inputs.
 2. Implement `exec(self, inputs)`: Run the agent using `self.run_and_validate(...)`.
 

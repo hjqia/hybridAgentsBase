@@ -28,7 +28,7 @@ def my_new_task(data: str) -> str:
 ```
 
 ### Step C: Node (`nodes.py`)
-1. Inherit from `BaseNode` (from `core.base_node`).
+1. Inherit from `PowerfulNode` (from `core.sync_powerful_nodes`).
 2. Implement `prep(self, shared)` to extract data from state.
 3. Implement `exec(self, inputs)`:
    - Instantiate tools.
@@ -49,7 +49,7 @@ def my_new_task(data: str) -> str:
 ## 4. Code Pattern Example
 ```python
 # nodes.py
-class ValidationNode(BaseNode):
+class ValidationNode(PowerfulNode):
     def prep(self, shared):
         return {"data": shared.get("research", {}).get("result"), "shared": shared}
 
