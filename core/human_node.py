@@ -1,6 +1,6 @@
-from core.base_node import BaseNode
+from core.sync_powerful_nodes import PowerfulNode
 
-class AskHumanNode(BaseNode):
+class AskHumanNode(PowerfulNode):
     """
     A node that pauses execution to ask the human user a question via stdin.
     stores the result in the shared state.

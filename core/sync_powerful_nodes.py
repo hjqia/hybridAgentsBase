@@ -8,9 +8,9 @@ from .storage.fs import FileSystemStatePersistence
 from .storage.base import FlowState
 
 
-class BaseNode(Node):
+class PowerfulNode(Node):
     """
-    BaseNode containing shared helpers for JSON parsing, LLM repair,
+    PowerfulNode containing shared helpers for JSON parsing, LLM repair,
     namespaced state management, and automatic checkpointing.
     """
 
@@ -129,7 +129,7 @@ class BaseNode(Node):
         return exec_res
 
 
-class PowerfulBatchNode(BaseNode):
+class PowerfulBatchNode(PowerfulNode):
     def _exec(self, items):
         return [super(PowerfulBatchNode, self)._exec(i) for i in (items or [])]
 

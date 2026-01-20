@@ -12,7 +12,7 @@ from .storage.base import FlowState
 
 class AsyncPowerfulNode(AsyncNode):
     """
-    Async version of BaseNode with shared helpers for JSON parsing, LLM repair,
+    Async version of PowerfulNode with shared helpers for JSON parsing, LLM repair,
     namespaced state management, and automatic checkpointing.
     """
 
