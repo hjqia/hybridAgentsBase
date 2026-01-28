@@ -43,10 +43,17 @@ def setup_smolagents_instrumentation(session_id: str = None, user_id: str = None
 def get_agent(model_object, tools=None):
     if tools is None:
         tools = []
+
+    try:
+        verbosity_level = int(os.getenv("SMOLAGENTS_LOG_LEVEL", "1"))
+    except ValueError:
+        verbosity_level = 1
+
     return CodeAgent(
         tools=tools,
         model=model_object,
-        additional_authorized_imports=["json", "datetime", "math"]
+        additional_authorized_imports=["json", "datetime", "math"],
+        verbosity_level=verbosity_level
     )
 
 

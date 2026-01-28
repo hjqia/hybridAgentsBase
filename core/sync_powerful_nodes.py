@@ -39,6 +39,10 @@ class PowerfulNode(Node):
     def _read_namespace(self, shared: dict, namespace: str = None) -> dict:
         return shared.get(namespace or self.namespace, {})
 
+    def _log(self, message):
+        if os.getenv("POCKETFLOW_LOG_LEVEL", "INFO").upper() != "OFF":
+            print(message)
+
     def _clean_and_parse_json(self, content):
         if isinstance(content, dict):
             return content
@@ -57,7 +61,7 @@ class PowerfulNode(Node):
         raise ValueError("No JSON found")
 
     def _llm_repair(self, content: str, response_model, system_prompt: str):
-        print(f"[{self.namespace}] Validation failed. Attempting LLM repair...")
+        self._log(f"[{self.namespace}] Validation failed. Attempting LLM repair...")
         client = get_instructor_client()
         model_id = self.model.model_id
         if not os.getenv("OPENAI_API_KEY") and not model_id.startswith("huggingface/"):
@@ -101,14 +105,14 @@ class PowerfulNode(Node):
     def run_and_validate(self, agent, task, response_model, shared, result_key, system_prompt, session_id=None, user_id=None, max_retries=3):
         current_task = task
         for attempt in range(max_retries):
-            print(f"[{self.namespace}] Attempt {attempt + 1}/{max_retries}")
+            self._log(f"[{self.namespace}] Attempt {attempt + 1}/{max_retries}")
             res = run_agent_with_context(agent, current_task, session_id, user_id)
 
             if self.parse_and_validate(res, response_model, system_prompt, result_key, shared) == "success":
                 return "success"
 
             error = shared.get("errors", {}).get(self.namespace, {}).get("message", "Unknown")
-            print(f"[{self.namespace}] Failed: {error}")
+            self._log(f"[{self.namespace}] Failed: {error}")
             current_task = f"{task}\n\nPREVIOUS ERROR: {error}\nFIX THE FORMAT."
 
         return "error"
@@ -123,9 +127,9 @@ class PowerfulNode(Node):
                 data=shared
             )
             FileSystemStatePersistence().save_state(state)
-            print(f"[{self.namespace}] Checkpoint saved.")
+            self._log(f"[{self.namespace}] Checkpoint saved.")
         except Exception as e:
-            print(f"[{self.namespace}] Checkpoint failed: {e}")
+            self._log(f"[{self.namespace}] Checkpoint failed: {e}")
         return exec_res
 
 
