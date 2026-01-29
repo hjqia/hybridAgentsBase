@@ -5,6 +5,7 @@ from .async_powerful_nodes import (
 )
 from .sync_powerful_nodes import PowerfulNode, PowerfulBatchNode
 from .human_node import AskHumanNode
+from .web_node import BaseWebNode, WebEndNode
 
 __all__ = [
     "AsyncPowerfulBatchNode",
@@ -13,4 +14,6 @@ __all__ = [
     "AskHumanNode",
     "PowerfulNode",
     "PowerfulBatchNode",
+    "BaseWebNode",
+    "WebEndNode",
 ]
