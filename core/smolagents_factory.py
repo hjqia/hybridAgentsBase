@@ -40,7 +40,7 @@ def setup_smolagents_instrumentation(session_id: str = None, user_id: str = None
             print(f"--- smolagents: Langfuse not properly configured [Session: {session_id}, User: {user_id}] ---")
 
 
-def get_agent(model_object, tools=None):
+def get_agent(model_object, tools=None, system_prompt=None):
     if tools is None:
         tools = []
 
@@ -49,12 +49,16 @@ def get_agent(model_object, tools=None):
     except ValueError:
         verbosity_level = 1
 
-    return CodeAgent(
-        tools=tools,
-        model=model_object,
-        additional_authorized_imports=["json", "datetime", "math"],
-        verbosity_level=verbosity_level
-    )
+    kwargs = {
+        "tools": tools,
+        "model": model_object,
+        "additional_authorized_imports": ["json", "datetime", "math"],
+        "verbosity_level": verbosity_level
+    }
+    if system_prompt:
+        kwargs["system_prompt"] = system_prompt
+
+    return CodeAgent(**kwargs)
 
 
 def get_mcp_tools(server_urls: list[str]):
