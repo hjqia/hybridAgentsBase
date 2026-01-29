@@ -106,14 +106,21 @@ class PowerfulNode(Node):
         current_task = task
         for attempt in range(max_retries):
             self._log(f"[{self.namespace}] Attempt {attempt + 1}/{max_retries}")
-            res = run_agent_with_context(agent, current_task, session_id, user_id)
-
-            if self.parse_and_validate(res, response_model, system_prompt, result_key, shared) == "success":
-                return "success"
+            try:
+                res = run_agent_with_context(agent, current_task, session_id, user_id)
+                if self.parse_and_validate(res, response_model, system_prompt, result_key, shared) == "success":
+                    return "success"
+            except Exception as e:
+                error_msg = str(e)
+                self._log(f"[{self.namespace}] Agent attempt failed: {error_msg}")
+                # Store error for the retry prompt
+                if "errors" not in shared:
+                    shared["errors"] = {}
+                shared["errors"][self.namespace] = {"message": error_msg}
 
             error = shared.get("errors", {}).get(self.namespace, {}).get("message", "Unknown")
-            self._log(f"[{self.namespace}] Failed: {error}")
-            current_task = f"{task}\n\nPREVIOUS ERROR: {error}\nFIX THE FORMAT."
+            self._log(f"[{self.namespace}] Total failure on attempt: {error}")
+            current_task = f"{task}\n\nPREVIOUS ERROR: {error}\nCRITICAL: You MUST use the <code>...</code> format for your code blobs."
 
         return "error"
 
