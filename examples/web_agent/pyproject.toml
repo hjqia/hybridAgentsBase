@@ -1,0 +1,18 @@
+[project]
+name = "web-playwright-agent"
+version = "0.1.0"
+description = "An agent that uses Playwright to fill forms"
+dependencies = [
+    "pocketflow",
+    "smolagents",
+    "playwright",
+    "fastapi",
+    "uvicorn",
+    "jinja2",
+    "pydantic",
+    "python-dotenv"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
