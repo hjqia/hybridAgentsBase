@@ -62,3 +62,7 @@ env/
 # Transformers.js cache
 .cache/
 models/
+
+# Agent Artifacts
+artifacts/
+**/artifacts/
